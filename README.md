@@ -54,3 +54,13 @@
 1.  Установите Python.
 2.  Установите библиотеки: `pip install pyinstaller pywin32`
 3.  Запустите `build.bat` (в папке `bin` появится EXE файл).
+
+## Star History
+
+<a href="https://www.star-history.com/#fewerip/telegram-unblocker&type=date&legend=top-left">
+ <picture>
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=fewerip/telegram-unblocker&type=date&theme=dark&legend=top-left" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=fewerip/telegram-unblocker&type=date&legend=top-left" />
+   <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=fewerip/telegram-unblocker&type=date&legend=top-left" />
+ </picture>
+</a>
