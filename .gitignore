@@ -1,0 +1,15 @@
+# Python artifacts
+__pycache__/
+*.py[cod]
+*$py.class
+build/
+bin/*
+!bin/TelegramUnblocker.exe
+*.spec
+
+# User configuration
+config.json
+
+# System files
+.DS_Store
+Thumbs.db
