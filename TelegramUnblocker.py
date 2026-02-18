@@ -27,24 +27,32 @@ class ProxyConfig:
         self.remote_user = ""
         self.remote_pass = ""
 
+    def get_config_path(self):
+        # Reliable path for both Service and Console (frozen exe)
+        # sys.executable is the full path to the .exe
+        exe_dir = os.path.dirname(os.path.abspath(sys.executable))
+        return os.path.join(exe_dir, CONFIG_FILE)
+
     def load(self):
-        path = os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), CONFIG_FILE)
-        if os.path.exists(path):
-            try:
-                with open(path, 'r') as f:
-                    data = json.load(f)
-                    self.local_port = data.get('local_port', 10805)
-                    self.remote_ip = data.get('remote_ip', "")
-                    self.remote_port = data.get('remote_port', 0)
-                    self.remote_user = data.get('remote_user', "")
-                    self.remote_pass = data.get('remote_pass', "")
-                    return True
-            except:
-                pass
+        path = self.get_config_path()
+        try:
+            with open(path, 'r') as f:
+                data = json.load(f)
+                self.local_port = data.get('local_port', 10805)
+                self.remote_ip = data.get('remote_ip', "")
+                self.remote_port = data.get('remote_port', 0)
+                self.remote_user = data.get('remote_user', "")
+                self.remote_pass = data.get('remote_pass', "")
+                log_debug(f"Config Loaded: {path}")
+                log_debug(f"Target: {self.remote_ip}:{self.remote_port}")
+                return True
+        except Exception as e:
+            log_debug(f"Config Load Error: {e} | Path: {path}")
+            pass
         return False
 
     def save(self):
-        path = os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), CONFIG_FILE)
+        path = self.get_config_path()
         data = {
             'local_port': self.local_port,
             'remote_ip': self.remote_ip,
@@ -52,6 +60,21 @@ class ProxyConfig:
             'remote_user': self.remote_user,
             'remote_pass': self.remote_pass
         }
+        with open(path, 'w') as f:
+            json.dump(data, f, indent=4)
+
+# --- DEBUG LOGGER ---
+def log_debug(msg):
+    # Logs to 'service_log.txt' near the executable
+    try:
+        exe_dir = os.path.dirname(os.path.abspath(sys.executable))
+        log_path = os.path.join(exe_dir, "service_log.txt")
+        with open(log_path, 'a') as f:
+             # simple timestamp
+             t = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+             f.write(f"[{t}] {msg}\n")
+    except:
+        pass
         with open(path, 'w') as f:
             json.dump(data, f, indent=4)
 
